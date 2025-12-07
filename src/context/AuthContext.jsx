@@ -1,60 +1,60 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import axios from 'axios'; 
+import axios from 'axios';
 
+const API_URL = 'http://localhost:8000/api/auth/login';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const API_URL = 'http://localhost:8000/api/auth/login';
+	const [user, setUser] = useState(null);
+	const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      setUser({ token });
-    }
-    setLoading(false);
-  }, []);
+	useEffect(() => {
+		const token = localStorage.getItem('authToken');
+		if (token) {
+			setUser({ token });
+		}
+		setLoading(false);
+	}, []);
 
-  const login = async (email, password) => {
-    try {
-      const response = await axios.post(API_URL, { email, password });
-      const { token, userData } = response.data.data;
+	const login = async (email, password) => {
+		try {
+			const response = await axios.post(API_URL, { email, password });
+			const { token, userData } = response.data.data;
 
-      localStorage.setItem('authToken', token);
-      
-      setUser(userData); 
-      return true;
-    } catch (error) {
-      console.error("Login falhou:", error);
-      return false; 
-    }
-  };
+			localStorage.setItem('authToken', token);
 
-  const logout = () => {
-    localStorage.removeItem('authToken');
-    setUser(null);
-  };
+			setUser(userData);
+			return true;
+		} catch (error) {
+			console.error("Login falhou:", error);
+			return false;
+		}
+	};
 
-  const contextValue = {
-    user,
-    loading,
-    isAuthenticated: !!user,
-    login,
-    logout
-  };
+	const logout = () => {
+		localStorage.removeItem('authToken');
+		setUser(null);
+	};
 
-  if (loading) {
-    return <div>Carregando...</div>;
-  }
+	const contextValue = {
+		user,
+		loading,
+		isAuthenticated: !!user,
+		login,
+		logout
+	};
 
-  return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
-  );
+	if (loading) {
+		return <div>Carregando...</div>;
+	}
+
+	return (
+		<AuthContext.Provider value={contextValue}>
+			{children}
+		</AuthContext.Provider>
+	);
 };
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+	return useContext(AuthContext);
 };

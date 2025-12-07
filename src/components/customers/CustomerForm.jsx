@@ -77,7 +77,7 @@ function CustomerForm() {
             console.log('Cliente criado com sucesso:', response.data);
             alert('Cliente criado com sucesso!');
 
-            navigate('/panel');
+            navigate('/');
 
         } catch (error) {
             console.error('Erro ao criar cliente:', error.response ? error.response.data : error.message);
