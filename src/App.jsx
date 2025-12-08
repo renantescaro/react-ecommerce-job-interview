@@ -19,6 +19,7 @@ function App() {
 						<Route element={<MainLayout />}>
 							<Route path="/" element={<Dashboard />} />
 							<Route path="/customer/new" element={<CustomerForm />} />
+							<Route path="/customer/edit/:customerId" element={<CustomerForm />} />
 							<Route path="/customer" element={<CustomerList />} />
 							<Route path="/user" element={<UserList />} />
 						</Route>

@@ -1,7 +1,7 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import { BASE_URL } from '../services/api';
 import axios from 'axios';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
-const API_URL = 'http://localhost:8000/api/auth/login';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -16,14 +16,15 @@ export const AuthProvider = ({ children }) => {
 		setLoading(false);
 	}, []);
 
-	const login = async (email, password) => {
+	const login = async (login, password) => {
 		try {
-			const response = await axios.post(API_URL, { email, password });
-			const { token, userData } = response.data.data;
+			// evita colocar o token
+			const response = await axios.post(`${BASE_URL}/auth/login`, { login, password });
+			const { user } = response.data;
 
-			localStorage.setItem('authToken', token);
+			localStorage.setItem('authToken', user.token);
 
-			setUser(userData);
+			setUser(user);
 			return true;
 		} catch (error) {
 			console.error("Login falhou:", error);

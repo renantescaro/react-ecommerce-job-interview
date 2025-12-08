@@ -1,8 +1,8 @@
+import api from '../../services/api';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = 'http://localhost:8000/api/customers';
+const CUSTOMERS_ENDPOINT = '/customers';
 
 function CustomerList() {
 	const [customers, setCustomers] = useState([]);
@@ -16,7 +16,7 @@ function CustomerList() {
 				setLoading(true);
 				setError(null);
 
-				const response = await axios.get(API_URL);
+				const response = await api.get(CUSTOMERS_ENDPOINT);
 
 				setCustomers(response.data.data);
 
@@ -67,6 +67,10 @@ function CustomerList() {
 		}
 	};
 
+	const handleEditCustomer = async (customerId) => {
+		navigate(`/customer/edit/${customerId}`);
+	};
+
 	return (
 		<div style={{ padding: '20px' }}>
 			<h1>Lista de Clientes</h1>
@@ -104,7 +108,13 @@ function CustomerList() {
 								>Apagar
 								</button>
 							</td>
-							<td><button className='btn btn-primary'>Editar</button></td>
+							<td>
+								<button
+									className='btn btn-primary'
+									onClick={() => handleEditCustomer(customer.id)}
+								>Editar
+								</button>
+							</td>
 						</tr>
 					))}
 				</tbody>

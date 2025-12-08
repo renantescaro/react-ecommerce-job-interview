@@ -1,8 +1,8 @@
+import api from '../../services/api';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = 'http://localhost:8000/api/users';
+const USERS_ENDPOINT = '/users';
 
 function UserList() {
 	const [users, setUsers] = useState([]);
@@ -16,7 +16,7 @@ function UserList() {
 				setLoading(true);
 				setError(null);
 
-				const response = await axios.get(API_URL);
+				const response = await api.get(USERS_ENDPOINT);
 
 				setUsers(response.data.data);
 
@@ -33,7 +33,7 @@ function UserList() {
 	}, []);
 
 	if (loading) {
-		return <h2>Carregando usuários...</h2>;
+		return <h2>Carregando Usuários...</h2>;
 	}
 
 	if (error) {
@@ -84,9 +84,7 @@ function UserList() {
 					<tr>
 						<th>Id</th>
 						<th>Nome</th>
-						<th>Data Nascimento</th>
-						<th>CPF</th>
-						<th>Telefone</th>
+						<th>Login</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -94,9 +92,7 @@ function UserList() {
 						<tr key={user.id}>
 							<td>{user.id}</td>
 							<td>{user.name}</td>
-							<td>{user.birthDate}</td>
-							<td>{user.cpf}</td>
-							<td>{user.phone}</td>
+							<td>{user.login}</td>
 							<td>
 								<button
 									className='btn btn-danger'

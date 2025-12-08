@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import api from '../../services/api';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const API_URL = 'http://localhost:8000/api/customers';
+const CUSTOMERS_ENDPOINT = '/customers';
 
 function CustomerForm() {
     const navigate = useNavigate();
+    const { customerId } = useParams();
+    const isEditing = !!customerId;
 
     const [customer, setCustomer] = useState({
         name: '',
@@ -24,6 +26,38 @@ function CustomerForm() {
             zip_code: '',
         },
     ]);
+
+    useEffect(() => {
+        if (isEditing) {
+            const fetchCustomerData = async () => {
+                try {
+                    const response = await api.get(`${CUSTOMERS_ENDPOINT}/${customerId}`);
+                    const data = response.data.data;
+
+                    setCustomer({
+                        name: data.name,
+                        birth_date: data.birthDate,
+                        cpf: data.cpf,
+                        rg: data.rg,
+                        phone: data.phone,
+                    });
+                    setAddresses(data.addresses.map(addr => ({
+                        street: addr.street,
+                        number: addr.number,
+                        city: addr.city,
+                        state: addr.state,
+                        zip_code: addr.zipCode,
+                    })));
+
+                } catch (error) {
+                    console.error("Erro ao carregar dados para edição:", error);
+                    alert("Cliente não encontrado ou erro ao carregar dados.");
+                    navigate('/customer');
+                }
+            };
+            fetchCustomerData();
+        }
+    }, [isEditing, customerId, navigate]);
 
     const handleCustomerChange = (e) => {
         const { id, value } = e.target;
@@ -72,16 +106,22 @@ function CustomerForm() {
         };
 
         try {
-            const response = await axios.post(API_URL, finalData);
+            let response;
+            if (isEditing) {
+                response = await api.put(`${CUSTOMERS_ENDPOINT}/${customerId}`, finalData);
+                alert('Cliente alterado com sucesso!');
+            } else {
+                response = await api.post(CUSTOMERS_ENDPOINT, finalData);
+                alert('Cliente criado com sucesso!');
+            }
 
-            console.log('Cliente criado com sucesso:', response.data);
-            alert('Cliente criado com sucesso!');
+            console.log('request enviada com sucesso:', response.data);
 
-            navigate('/');
+            navigate('/customer');
 
         } catch (error) {
-            console.error('Erro ao criar cliente:', error.response ? error.response.data : error.message);
-            alert('Falha ao criar cliente. Verifique o console.');
+            console.error('Erro na request:', error.response ? error.response.data : error.message);
+            alert('Falha no sistema');
         }
     };
 
