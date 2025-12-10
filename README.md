@@ -9,8 +9,8 @@ O sistema implementa autenticação via **JWT (JSON Web Tokens)** e usa o **Axio
 
 * **Autenticação JWT:** Login de usuário e proteção de rotas.
 * **Rotas Protegidas:** Acesso a páginas restrito a usuários logados.
-* **CRUD de Clientes:**
-* **CRUD de Usuários:**
+* **CRUD de Clientes:** Cadastro de Clientes
+* **CRUD de Usuários:** Cadastro de Usuários 
 
 ---
 
@@ -47,7 +47,7 @@ Siga estes passos para configurar e executar o projeto em sua máquina local.
     ```bash
     npm install
     # ou
-    # yarn install
+    yarn install
     ```
 
 3.  **Configurar Variáveis de Ambiente:**
@@ -63,7 +63,7 @@ Siga estes passos para configurar e executar o projeto em sua máquina local.
     ```bash
     npm run dev
     # ou
-    # yarn dev
+    yarn dev
     ```
     O frontend estará acessível em `http://localhost:5173` (ou porta similar).
 
