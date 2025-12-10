@@ -48,6 +48,10 @@ function UserList() {
 		navigate('/user/new');
 	};
 
+	const handleEditUser = async (userId) => {
+		navigate(`/user/edit/${userId}`)
+	};
+
 	const handleDeleteUser = async (userId, userName) => {
 		const isConfirmed = window.confirm(
 			`Tem certeza que deseja apagar o usuário: ${userName} (ID: ${userId})?`
@@ -55,7 +59,7 @@ function UserList() {
 
 		if (isConfirmed) {
 			try {
-				await axios.delete(`${API_URL}/${userId}`);
+				await api.delete(`${USERS_ENDPOINT}/${userId}`);
 
 				alert(`Usuário ${userName} excluído com sucesso.`);
 				setUsers(users.filter(c => c.id !== userId));
@@ -100,7 +104,13 @@ function UserList() {
 								>Apagar
 								</button>
 							</td>
-							<td><button className='btn btn-primary'>Editar</button></td>
+							<td>
+								<button
+									className='btn btn-primary'
+									onClick={() => handleEditUser(user.id)}
+								>Editar
+								</button>
+							</td>
 						</tr>
 					))}
 				</tbody>

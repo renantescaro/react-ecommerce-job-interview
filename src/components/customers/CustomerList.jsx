@@ -55,7 +55,7 @@ function CustomerList() {
 
 		if (isConfirmed) {
 			try {
-				await axios.delete(`${API_URL}/${customerId}`);
+				await api.delete(`${CUSTOMERS_ENDPOINT}/${customerId}`);
 
 				alert(`Cliente ${customerName} excluído com sucesso.`);
 				setCustomers(customers.filter(c => c.id !== customerId));
