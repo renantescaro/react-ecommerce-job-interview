@@ -41,7 +41,18 @@ function CustomerList() {
 	}
 
 	if (customers.length === 0) {
-		return <h2>Nenhum cliente encontrado.</h2>;
+		return (<div>
+			<h2>Nenhum cliente encontrado.</h2>
+			<br/>
+			<div>
+				<button
+					className='btn btn-success'
+					onClick={handleNewCustomer}
+				>
+					Cadastre o seu primeiro cliente!
+				</button>
+			</div>
+		</div>)
 	}
 
 	const handleNewCustomer = () => {
