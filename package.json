@@ -7,7 +7,7 @@
     "dev": "vite",
     "lint": "eslint .",
     "preview": "vite preview",
-    "build": "vite build",
+    "build": "VITE_API_BASE_URL=$VITE_API_BASE_URL vite build",
     "start": "serve -s dist -l $PORT"
   },
   "dependencies": {
