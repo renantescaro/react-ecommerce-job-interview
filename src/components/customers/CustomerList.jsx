@@ -40,21 +40,6 @@ function CustomerList() {
 		return <h2 style={{ color: 'red' }}>Erro: {error}</h2>;
 	}
 
-	if (customers.length === 0) {
-		return (<div>
-			<h2>Nenhum cliente encontrado.</h2>
-			<br/>
-			<div>
-				<button
-					className='btn btn-success'
-					onClick={handleNewCustomer}
-				>
-					Cadastre o seu primeiro cliente!
-				</button>
-			</div>
-		</div>)
-	}
-
 	const handleNewCustomer = () => {
 		navigate('/customer/new');
 	};
@@ -81,6 +66,21 @@ function CustomerList() {
 	const handleEditCustomer = async (customerId) => {
 		navigate(`/customer/edit/${customerId}`);
 	};
+
+	if (customers.length === 0) {
+		return (<div>
+			<h2>Nenhum cliente encontrado.</h2>
+			<br/>
+			<div>
+				<button
+					className='btn btn-success'
+					onClick={handleNewCustomer}
+				>
+					Cadastre o seu primeiro cliente!
+				</button>
+			</div>
+		</div>)
+	}
 
 	return (
 		<div style={{ padding: '20px' }}>
